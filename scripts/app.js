@@ -1,12 +1,12 @@
-axios.get('https://localhost:44372/api/books')
-  .then(function (response) {
-    for (let i = 0; i < response.data.length; i++) {
-      createCard(response.data[i])
-    }
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+// axios.get('https://localhost:44372/api/books')
+//   .then(function (response) {
+//     for (let i = 0; i < response.data.length; i++) {
+//       createCard(response.data[i])
+//     }
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
 
   function createCard(book) {
     var col = document.createElement("div");
@@ -34,12 +34,31 @@ axios.get('https://localhost:44372/api/books')
     cardPrice.classList.add("card-text");
     cardPrice.innerText = book.price;
 
+    var cardBtn = document.createElement("button");
+    cardBtn.classList.add("btn");
+    cardBtn.classList.add("btn-primary");
+
     
+
+    if (localStorageService.exist('cartItems',book.id)) {
+      cardBtn.innerHTML = "Remove from cart";
+      cardBtn.onclick = function(e){
+        removeFromCart(e, book.id)
+      }
+    } 
+    else{
+      cardBtn.innerHTML = "Add To Card";
+      cardBtn.onclick = function(e){
+        addToCart(e, book.id);
+      }
+    }
+  
 
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardAuthor);
     cardBody.appendChild(cardDescription);
     cardBody.appendChild(cardPrice);
+    cardBody.appendChild(cardBtn);
     
     card.appendChild(cardBody);
     col.appendChild(card);
@@ -48,50 +67,61 @@ axios.get('https://localhost:44372/api/books')
     cardContainer.appendChild(col);
   }
 
+  
 
+  function addToCart(event,bookId)
+  {
+    localStorageService.add("cartItems" , bookId);
+    
 
-  function createBook(){
-    var newBook =  {
-        title: "Test book = new V2",
-        description: "test book V2",
-        author: "Olivera Nikolovska",
-        ganre: "Children",
-        quantity: 10,
-        price: 200.00
-      }
-      
-
-    axios.post('https://localhost:44372/api/books', newBook)
-      .then(function (response) {
-        createCard(newBook);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    event.target.innerHTML = "Remove from cart";
+    event.target.onclick = function(e){
+      removeFromCart(e, bookId);
+    }
   }
 
+  function removeFromCart(event,bookId){
+    
+    localStorageService.remove("cartItems",bookId)
+  
+      event.target.innerHTML = "Add to cart";
+    event.target.onclick = function(e){
+      addToCart(e, bookId);
+    }
+  }
+  
+
+  function initApp() {
+    renderCards();
+  }
+  
+  function getWithFilter() {
+    var authorInput = document.getElementById("authorSearchInput").value;
+    var titleInput = document.getElementById("titleSearchInput").value;
+  
+    renderCards(authorInput, titleInput);
+  }
+  
+  function renderCards(authorInput = "", titleInput = ""){
+    axios.get(`https://localhost:44372/api/books?author=${authorInput}&title=${titleInput}`)
+    .then(function (response) {
+      document.getElementById("card-container").innerHTML = "";
+      for (let i = 0; i < response.data.length; i++) {
+        createCard(response.data[i]);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  
+  initApp();
 
 
 
-  // function createBook(){
-  //   var newBook =  {
-  //       title: "Test book = newV2",
-  //       description: "test book V2",
-  //       author: "Olivera Nikolovska",
-  //       ganre: "Children",
-  //       quantity: 10,
-  //       price: 200.00
-      
-  //   }
   
 
 
 
-  // axios.post('https://localhost:44372/api/books', newBook)
-    
-  // .then(function (response) {
-  //   createCard(newBook);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // })
+
+  
