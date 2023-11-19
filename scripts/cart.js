@@ -50,7 +50,7 @@ function orderBooks(){
   var email = document.getElementById("customerEmail").value;
   var address = document.getElementById("customerAddress").value;
   var phone = document.getElementById("customerPhone").value;
-
+  validateData();
   var bookIds = localStorageService.getAll('cartItems');
 
   var data = {
@@ -61,8 +61,10 @@ function orderBooks(){
     bookIds : bookIds
   }
 
+ 
 
-  axios.post('https://localhost:44372/api/orders' , data)
+  
+    axios.post('https://localhost:44372/api/orders' , data)
 
   .then(function (response) {
     alert(`Thanks for ordering.`);
@@ -70,8 +72,18 @@ function orderBooks(){
             location.href = "index.html"
   })
   .catch(function (error){
+    
+    if (error.response.status == 400) {
+      for (const property in error.response.data.errors) {
+        console.log(`${property} : ${error.response.data.errors[property]}`);
+      }
+    }else{
+      alert("Something has occured. Please try again later.");
+  }
     console.log(error);
   })
+ 
+  
 }
   
   

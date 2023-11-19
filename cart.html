@@ -48,19 +48,19 @@
       <hr/>
       <div class="form-group">
           <label for="customerName">Full Name</label>
-          <input class="form-control" id="customerName" placeholder="Please enter full name" />
+          <input class="form-control" id="customerName" placeholder="Please enter full name" name="FullName" required/>
       </div>
       <div class="form-group">
           <label for="customerEmail">Email</label>
-          <input class="form-control" id="customerEmail" placeholder="Please enter email"/>
+          <input class="form-control" id="customerEmail" placeholder="Please enter email" name="Email" required/>
       </div>
       <div class="form-group">
           <label for="customerAddress">Address</label>
-          <input class="form-control" id="customerAddress" placeholder="Please enter address"/>
+          <input class="form-control" id="customerAddress" placeholder="Please enter address" name="Address" required/>
       </div>
       <div class="form-group">
           <label for="customerPhone">Phone</label>
-          <input class="form-control" id="customerPhone" placeholder="Please enter phone"/>
+          <input class="form-control" id="customerPhone" placeholder="Please enter phone" name="Phone" required/>
       </div>
       <button class="btn btn-primary" onclick="orderBooks()">Order</button>
   </div>
@@ -72,5 +72,6 @@ integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRk
 integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="./scripts/localStorageService.js"></script>
+<script src="./scripts/validator.js"></script>
 <script src="./scripts/cart.js"></script>
 </html>
