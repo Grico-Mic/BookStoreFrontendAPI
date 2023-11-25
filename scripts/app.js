@@ -1,12 +1,3 @@
-// axios.get('https://localhost:44372/api/books')
-//   .then(function (response) {
-//     for (let i = 0; i < response.data.length; i++) {
-//       createCard(response.data[i])
-//     }
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
 
   function createCard(book) {
     var col = document.createElement("div");
@@ -103,6 +94,9 @@
   }
   
   function renderCards(authorInput = "", titleInput = ""){
+    var loader = document.getElementById("loader")
+    loader.style.display = "block";
+
     axios.get(`https://localhost:44372/api/books?author=${authorInput}&title=${titleInput}`)
     .then(function (response) {
       document.getElementById("card-container").innerHTML = "";
@@ -112,7 +106,11 @@
     })
     .catch(function (error) {
       console.log(error);
+    })
+    .finaly(function(){
+      loader.style.display = "none";
     });
+    //.finally(() => {loader.style.display = "none"});
   }
   
   initApp();
